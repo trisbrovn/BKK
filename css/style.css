@@ -1,0 +1,114 @@
+/* Chủ đề mặc định - Sáng */
+:root {
+  --color-bg: #f0f8ff;
+  --color-text: #333;
+  --color-header: linear-gradient(90deg, #00e0ff, #ff8edb);
+  --color-footer: #00e0ff;
+  --color-card-border: #ffb3ec;
+  --color-card-title: #00bcd4;
+}
+
+/* Chủ đề tối */
+[data-theme="dark"] {
+  --color-bg: #121212;
+  --color-text: #f0f0f0;
+  --color-header: linear-gradient(90deg, #0088a9, #b5007b);
+  --color-footer: #0088a9;
+  --color-card-border: #ffb3ec;
+  --color-card-title: #6bd8ff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+  background: var(--color-header);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.toggle-theme {
+  margin-top: 15px;
+  background: white;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+main {
+  padding: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.news-item {
+  background-color: white;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+[data-theme="dark"] .news-item {
+  background-color: #1e1e1e;
+}
+
+.news-item:hover {
+  transform: scale(1.02);
+}
+
+.news-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.news-item h2 {
+  padding: 15px;
+  color: var(--color-card-title);
+}
+
+.news-item p {
+  padding: 0 15px 15px;
+  color: var(--color-text);
+}
+
+footer {
+  background: var(--color-footer);
+  color: white;
+  text-align: center;
+  padding: 15px;
+  margin-top: 30px;
+}
