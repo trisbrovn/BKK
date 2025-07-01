@@ -1,89 +1,91 @@
-/* news-style.css */
-
-/* Cơ bản */
-body {
-  transition: background-color 0.3s, color 0.3s;
-  font-family: "Segoe UI", sans-serif;
+:root {
+  --bg-light: linear-gradient(135deg, #fff0f5, #ffffff);
+  --bg-dark: linear-gradient(135deg, #0f172a, #0f1a2e);
+  --text-light: #111827;
+  --text-dark: #e2e8f0;
+  --card-light: #ffffff;
+  --card-dark: #1e293b;
+  --primary: #ff4ecd;
+  --shadow-light: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+  --shadow-dark: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-/* Giao diện sáng */
 body.light-mode {
-  background: linear-gradient(135deg, #fff 0%, #fffafc 100%);
-  color: #212529;
+  background: var(--bg-light);
+  color: var(--text-light);
 }
 
-/* Giao diện tối */
 body.dark-mode {
-  background: linear-gradient(135deg, #0f111a 0%, #141824 100%);
-  color: #f8f9fa;
+  background: var(--bg-dark);
+  color: var(--text-dark);
 }
 
-/* Card tin tức */
-.card {
-  border: none;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-title a {
-  color: #007bff;
-  transition: color 0.2s;
-}
-
-.card-title a:hover {
-  color: #0056b3;
-}
-
-/* Navbar */
 .navbar {
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  transition: background 0.3s;
+}
+
+body.light-mode .navbar {
+  background-color: #fff !important;
+}
+
+body.dark-mode .navbar {
+  background-color: #1f2937 !important;
 }
 
 .navbar .nav-link {
-  color: rgba(255,255,255,0.8);
-  margin-right: 10px;
-  transition: color 0.2s;
+  transition: color 0.3s;
 }
 
-.navbar .nav-link:hover,
-.navbar .nav-link.active {
-  color: #ffffff;
-  font-weight: 500;
+body.light-mode .navbar .nav-link {
+  color: #000 !important;
 }
 
-/* Nút đổi giao diện */
-#theme-toggle {
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-size: 14px;
-  transition: all 0.3s ease;
+body.dark-mode .navbar .nav-link {
+  color: #e2e8f0 !important;
 }
 
-#theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.card {
+  border: none;
+  border-radius: 1rem;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* Nút tìm kiếm */
-form input[type="search"] {
-  border-radius: 20px;
-  padding-left: 12px;
+body.light-mode .card {
+  background-color: var(--card-light);
+  box-shadow: var(--shadow-light);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .card img {
-    height: 160px;
-  }
+body.dark-mode .card {
+  background-color: var(--card-dark);
+  box-shadow: var(--shadow-dark);
+}
+
+.card-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.card-title a:hover {
+  color: var(--primary);
+}
+
+.form-control {
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark-mode .form-control {
+  background-color: #1e293b;
+  color: #fff;
+  border: 1px solid #334155;
+}
+
+.btn-outline-light {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-outline-light:hover {
+  background-color: var(--primary);
+  color: white;
 }
