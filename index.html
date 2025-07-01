@@ -1,90 +1,77 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tin tức</title>
-
-  <!-- Bootstrap & FontAwesome -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <title>Tin Mới</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/news-style.css">
 </head>
-<body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">TIN MỚI</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
+<body class="light-mode">
+
+  <!-- Navbar (Thay cho sidebar) -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">TIN MỚI</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Tin tức</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Chuyên mục</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Đăng nhập</a></li>
+      </ul>
+
+      <form class="d-flex me-3" role="search">
+        <input class="form-control me-2" type="search" placeholder="Tìm kiếm..." aria-label="Search">
+      </form>
+
+      <button id="theme-toggle" class="btn btn-outline-light ms-3">
+        <i class="fa-solid fa-circle-half-stroke"></i> Đổi giao diện
       </button>
-
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-          <li class="nav-item"><a class="nav-link" href="pages/category.html">Chuyên mục</a></li>
-          <li class="nav-item"><a class="nav-link" href="pages/login.html">Đăng nhập / Đăng ký</a></li>
-        </ul>
-        <button id="toggle-theme" class="btn btn-outline-light ms-3">Đổi giao diện</button>
-      </div>
     </div>
-  </nav>
-
-  <!-- Tin tức cố định -->
-  <div class="container my-4">
-    <div class="row">
-      <div class="col-md-6 mb-4">
-        <div class="card h-100">
-          <img src="assets/news1.jpg" class="card-img-top" alt="Ảnh tin 1">
-          <div class="card-body">
-            <h5 class="card-title"><a href="pages/article1.html" class="text-decoration-none">Tiêu đề tin tức 1</a></h5>
-            <p class="card-text">Tóm tắt nội dung tin...</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-4">
-        <div class="card h-100">
-          <img src="assets/news2.jpg" class="card-img-top" alt="Ảnh tin 2">
-          <div class="card-body">
-            <h5 class="card-title"><a href="pages/article2.html" class="text-decoration-none">Tiêu đề tin tức 2</a></h5>
-            <p class="card-text">Tóm tắt nội dung tin...</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Tin tức tự động từ RSS -->
-    <div class="row" id="newsContainer"></div>
   </div>
+</nav>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-3">
-    &copy; 2025 TNews
-  </footer>
 
-  <!-- Scripts -->
-  <script src="js/login.js"></script>
-  <script src="js/nav.js"></script>
+  <!-- Nội dung chính -->
+  <main class="container py-4">
+    <div id="newsContainer" class="row g-4">
+      <!-- Tin tức từ RSS sẽ hiển thị tại đây -->
+    </div>
+  </main>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- RSS News Bot Script -->
   <script>
+    // Toggle dark/light mode
+    const toggleBtn = document.getElementById('theme-toggle');
+    toggleBtn.onclick = () => {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+    };
+
+    // Load RSS feed
     fetch("https://api.rss2json.com/v1/api.json?rss_url=https://vnexpress.net/rss/tin-moi-nhat.rss")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("newsContainer");
-        data.items.slice(0, 4).forEach(item => {
+        data.items.slice(0, 6).forEach(item => {
           const html = `
-            <div class="col-md-6 mb-4">
-              <div class="card h-100">
+            <div class="col-md-6 col-lg-4">
+              <div class="card h-100 shadow">
                 <img src="${item.thumbnail || 'assets/default.jpg'}" class="card-img-top" alt="${item.title}" />
                 <div class="card-body">
                   <h5 class="card-title">
                     <a href="${item.link}" target="_blank" class="text-decoration-none">${item.title}</a>
                   </h5>
-                  <p class="card-text">${item.description.split(" ").slice(0, 20).join(" ")}...</p>
+                  <p class="card-text">${item.description.split(" ").slice(0, 25).join(" ")}...</p>
                 </div>
               </div>
             </div>
@@ -94,4 +81,5 @@
       });
   </script>
 </body>
+
 </html>
