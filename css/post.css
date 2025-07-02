@@ -1,0 +1,11 @@
+body {
+  background-color: #f9f8f5;
+}
+input.form-control {
+  background-color: #f9f8f5;
+  font-size: 1.1rem;
+}
+#editor {
+  min-height: 300px;
+  background-color: white;
+}

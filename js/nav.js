@@ -1,17 +1,34 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const toggleBtn = document.getElementById("toggle-theme");
+function checkLoginStatus() {
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
 
-  if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode");
-      const theme = document.body.classList.contains("dark-mode") ? "dark" : "light";
-      localStorage.setItem("theme", theme);
+  if (!loginBtn || !logoutBtn) return;
+
+  const currentUser = localStorage.getItem("currentUser");
+
+  if (currentUser) {
+    loginBtn.classList.add("d-none");
+    logoutBtn.classList.remove("d-none");
+  } else {
+    loginBtn.classList.remove("d-none");
+    logoutBtn.classList.add("d-none");
+  }
+}
+
+function setupLogout() {
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      localStorage.removeItem("currentUser");
+      alert("Đã đăng xuất.");
+      window.location.reload(); // Tải lại để cập nhật nút
     });
   }
+}
 
-  // Tự động bật lại giao diện trước đó
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode");
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  checkLoginStatus();
+  setupLogout();
 });
