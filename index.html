@@ -14,7 +14,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
@@ -32,10 +32,10 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-          <a class="nav-link" href="pages/post.html">Đăng tin tức</a>
+          <a class="nav-link" href="./pages/post.html">Đăng tin tức</a>
 
           <li class="nav-item">
-            <a class="nav-link" id="login-btn" href="pages/login.html">Đăng nhập</a>
+            <a class="nav-link" id="login-btn" href="./pages/login.html">Đăng nhập</a>
           </li>
           <li class="nav-item">
             <a class="nav-link d-none" id="logout-btn" href="#">Đăng xuất</a>
@@ -89,52 +89,9 @@
 
   <!-- JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const toggleBtn = document.getElementById('theme-toggle');
-    const icon = document.getElementById('theme-icon');
-    const savedTheme = localStorage.getItem('theme') || 'light';
 
-    function applyTheme(theme) {
-      document.body.classList.remove('light-mode', 'dark-mode');
-      document.body.classList.add(`${theme}-mode`);
-      icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-      localStorage.setItem('theme', theme);
-    }
-
-    applyTheme(savedTheme);
-
-    toggleBtn.addEventListener('click', () => {
-      const current = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
-      applyTheme(next);
-    });
-
-    // Load RSS
-    fetch("https://api.rss2json.com/v1/api.json?rss_url=https://vnexpress.net/rss/tin-moi-nhat.rss")
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("newsContainer");
-        data.items.slice(0, 6).forEach(item => {
-          const html = `
-            <div class="col-md-6 col-lg-4">
-              <div class="card h-100 shadow">
-                <img src="${item.thumbnail || 'assets/default.jpg'}" class="card-img-top" alt="${item.title}">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="${item.link}" target="_blank">${item.title}</a>
-                  </h5>
-                  <p class="card-text">${item.description.split(" ").slice(0, 25).join(" ")}...</p>
-                </div>
-              </div>
-            </div>
-          `;
-          container.insertAdjacentHTML("beforeend", html);
-        });
-      });
-  </script>
-
-  <script src="js/nav.js"></script>
-
+  <script src="./js/nav.js"></script>
+  <script src="./js/load_api_news.js"></script>
 </body>
 
 </html>

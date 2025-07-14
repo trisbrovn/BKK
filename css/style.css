@@ -14,11 +14,21 @@
 body.light-mode {
   background: var(--bg-light);
   color: var(--text-light);
+  p {
+  color: var(--text-light);
+}
 }
 
 body.dark-mode {
   background: var(--bg-dark);
   color: var(--text-dark);
+  p {
+  color: var(--text-dark);
+}
+}
+
+.text-body {
+  color: var(--text-light);
 }
 
 body, .card, .navbar, .form-control {
