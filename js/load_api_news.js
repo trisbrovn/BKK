@@ -1,4 +1,4 @@
-// Load RSS
+// Load RSS chiu roi
 fetch(
   "https://api.rss2json.com/v1/api.json?rss_url=https://vnexpress.net/rss/tin-moi-nhat.rss"
 )
