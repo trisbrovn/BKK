@@ -3,7 +3,7 @@
 // **********************************************
 // ** CHÚ Ý: THAY THẾ 'YOUR_API_KEY' BẰNG KHÓA API CỦA BẠN **
 // **********************************************
-const API_KEY = '59a2e09d65ff4ef998999e91db5b68ba'; 
+const API_KEY = '2b373006cbf34d3e986612015b6d4b66'; 
 
 // Endpoint để lấy tin nóng (top news) từ Việt Nam
 const API_URL = `https://api.worldnewsapi.com/top-news?source-country=vn&language=vi&api-key=${API_KEY}`;
