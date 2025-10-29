@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login & Signup</title>
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
-    <!-- Inter Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <title>TNews | Đăng nhập</title>
+
+    <!-- Bootstrap + FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css" />
+
     <style>
       main {
         font-family: "Inter", sans-serif;
@@ -25,6 +25,7 @@
         min-height: 100vh;
         margin: 0;
       }
+
       .form-container {
         background-color: #ffffff;
         padding: 2.5rem;
@@ -34,156 +35,146 @@
         max-width: 450px;
         text-align: center;
       }
+
       .form-switch-buttons {
         margin-bottom: 1.5rem;
       }
-      .form-switch-buttons .btn {
-        border-radius: 0.5rem;
-      }
+
       .form-group {
         margin-bottom: 1rem;
         text-align: left;
       }
+
       .form-control {
         border-radius: 0.5rem;
         padding: 0.75rem 1rem;
       }
+
       .btn-primary {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
         border-radius: 0.5rem;
         padding: 0.75rem 1.5rem;
         font-weight: 600;
+        background-color: #ff9800 !important;
+        border-color: #ff9800 !important;
       }
+
+      .btn-primary:hover {
+        background-color: #e68900 !important;
+        border-color: #e68900 !important;
+      }
+
       .btn-outline-primary {
         border-radius: 0.5rem;
         padding: 0.75rem 1.5rem;
         font-weight: 600;
+        color: #ff9800;
+        border-color: #ff9800;
       }
+
+      .btn-outline-primary:hover {
+        background-color: #ff9800;
+        color: white;
+      }
+
+      .form-control:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 0 0.25rem rgba(255, 152, 0, 0.25);
+      }
+
+      .form-check-input:checked {
+        background-color: #ff9800;
+        border-color: #ff9800;
+      }
+
+      .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(255, 152, 0, 0.25);
+      }
+
       .d-none {
         display: none !important;
       }
     </style>
   </head>
+
   <body>
-    <!-- Navbar -->
+    <!-- ✅ Navbar (đã xóa ô tìm kiếm, giữ theme toggle) -->
     <nav class="navbar navbar-expand-lg sticky-top shadow">
       <div class="container-fluid">
-        <a
-          class="navbar-brand fw-bold"
-          href="../index.html"
-          style="color: orange"
-        >
+        <a class="navbar-brand fw-bold" href="../index.html" style="color: orange;">
           <i class="fa-solid fa-newspaper me-1"></i> TNews
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="../index.html">Trang chủ</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Tin tức đăng</a></li>
+            <li class="nav-item"><a class="nav-link" href="./post.html">Đăng tin tức</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#">Đăng nhập</a></li>
+            <li class="nav-item"><a class="nav-link d-none" id="logout-btn" href="#">Đăng xuất</a></li>
+          </ul>
+
+          <!-- 🔥 Chỉ giữ lại nút đổi theme -->
+          <button id="theme-toggle" class="btn btn-outline-secondary">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
+        </div>
       </div>
     </nav>
 
+    <!-- Nội dung chính -->
     <main>
       <div class="form-container">
         <div class="form-switch-buttons">
-          <button id="showLoginFormBtn" class="btn btn-primary me-2">
-            Login
-          </button>
-          <button id="showSignupFormBtn" class="btn btn-outline-primary">
-            Sign Up
-          </button>
+          <button id="showLoginFormBtn" class="btn btn-primary me-2">Login</button>
+          <button id="showSignupFormBtn" class="btn btn-outline-primary">Sign Up</button>
         </div>
 
-        <!-- Login Form -->
+        <!-- Form đăng nhập -->
         <form id="loginForm" class="d-block">
           <h2 class="mb-4 text-center">Login</h2>
           <div class="form-group mb-3">
             <label for="loginEmail" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="loginEmail"
-              placeholder="name@example.com"
-              name="email"
-              required
-            />
+            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" name="email" required />
           </div>
           <div class="form-group mb-3">
             <label for="loginPassword" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="loginPassword"
-              placeholder="Password"
-              name="password"
-              required
-            />
+            <input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password" required />
           </div>
           <div class="form-check text-start mb-3">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="showLoginPassword"
-            />
-            <label class="form-check-label" for="showLoginPassword"
-              >Hiển thị mật khẩu</label
-            >
+            <input type="checkbox" class="form-check-input" id="showLoginPassword" />
+            <label class="form-check-label" for="showLoginPassword">Hiển thị mật khẩu</label>
           </div>
           <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
 
-        <!-- Signup Form -->
+        <!-- Form đăng ký -->
         <form id="signupForm" class="d-none">
           <h2 class="mb-4 text-center">Sign Up</h2>
           <div class="form-group mb-3">
             <label for="signupUsername" class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control"
-              id="signupUsername"
-              placeholder="Enter your username"
-              name="username"
-              required
-            />
+            <input type="text" class="form-control" id="signupUsername" placeholder="Enter your username" name="username" required />
           </div>
           <div class="form-group mb-3">
             <label for="signupEmail" class="form-label">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="signupEmail"
-              placeholder="name@example.com"
-              name="email"
-              required
-            />
+            <input type="email" class="form-control" id="signupEmail" placeholder="name@example.com" name="email" required />
           </div>
           <div class="form-group mb-4">
             <label for="signupPassword" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="signupPassword"
-              placeholder="Create a password"
-              name="password"
-              required
-            />
+            <input type="password" class="form-control" id="signupPassword" placeholder="Create a password" name="password" required />
           </div>
           <button type="submit" class="btn btn-primary w-100">Sign Up</button>
         </form>
       </div>
     </main>
 
-    <!-- Bootstrap 5 JS -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      crossorigin="anonymous"
-    ></script>
+    <!-- Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/nav.js"></script>
 
-    <!-- App JS -->
     <script>
       const loginForm = document.getElementById("loginForm");
       const signupForm = document.getElementById("signupForm");
@@ -193,9 +184,9 @@
       function changeForm(isLogin) {
         if (isLogin) {
           loginForm.classList.add("d-block");
-          signupForm.classList.remove("d-block");
-          signupForm.classList.add("d-none");
           loginForm.classList.remove("d-none");
+          signupForm.classList.add("d-none");
+          signupForm.classList.remove("d-block");
         } else {
           loginForm.classList.add("d-none");
           loginForm.classList.remove("d-block");
@@ -220,20 +211,18 @@
         changeForm(true);
       });
 
-      document
-        .getElementById("showLoginPassword")
-        .addEventListener("change", function () {
-          const pwd = document.getElementById("loginPassword");
-          pwd.type = this.checked ? "text" : "password";
-        });
+      document.getElementById("showLoginPassword").addEventListener("change", function () {
+        const pwd = document.getElementById("loginPassword");
+        pwd.type = this.checked ? "text" : "password";
+      });
 
       function validateSignupForm(email, username, password) {
         if (username.length < 6) {
-          alert("Username must be at least 6 characters long.");
+          alert("Tên người dùng phải có ít nhất 6 ký tự.");
           return false;
         }
         if (password.length < 6) {
-          alert("Password must be at least 6 characters long.");
+          alert("Mật khẩu phải có ít nhất 6 ký tự.");
           return false;
         }
         return true;
@@ -247,15 +236,13 @@
         const email = document.getElementById("signupEmail").value;
         const username = document.getElementById("signupUsername").value;
         const password = document.getElementById("signupPassword").value;
-        if (
-          validateSignupForm(email, username, password) &&
-          !isEmailRegistered(email)
-        ) {
+        if (validateSignupForm(email, username, password) && !isEmailRegistered(email)) {
           localStorage.setItem(email, password);
-          alert("Registration successful! You can now log in.");
-          changeForm(true);
-        } else {
-          alert("Email is already registered. Please use a different email.");
+          localStorage.setItem(`user_${email}_username`, username);
+          alert("Đăng ký thành công! Bây giờ bạn có thể đăng nhập.");
+          showLoginFormBtn.click();
+        } else if (isEmailRegistered(email)) {
+          alert("Email đã được đăng ký. Vui lòng sử dụng email khác.");
         }
       }
 
@@ -266,13 +253,14 @@
           const passwordStored = localStorage.getItem(email);
           if (passwordStored === password) {
             localStorage.setItem("currentUser", email);
-            alert("Login successful! Redirecting to home page...");
+            localStorage.setItem("isLoggedIn", "true");
+            alert("Đăng nhập thành công! Đang chuyển hướng về trang chủ...");
             window.location.href = "../index.html";
           } else {
-            alert("Incorrect password. Please try again.");
+            alert("Mật khẩu không đúng. Vui lòng thử lại.");
           }
         } else {
-          alert("Email not registered. Please sign up first.");
+          alert("Email chưa được đăng ký. Vui lòng đăng ký trước.");
         }
       }
 
@@ -286,7 +274,5 @@
         loginToHome();
       });
     </script>
-
-    <script src="../js/login.js"></script>
   </body>
 </html>

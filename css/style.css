@@ -2,29 +2,34 @@
   --bg-light: linear-gradient(135deg, #f8fafc, #ffffff);
   --bg-dark: linear-gradient(135deg, #0f172a, #0f1a2e);
   --text-light: #111827;
-  --text-dark: #e2e8f0;
+  --text-dark: #e2e8f0; 
   --card-light: #ffffff;
-  --card-dark: #1e293b;
+  --card-dark: #1e293b; 
   --primary: #6366f1;
   --shadow-light: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
   --shadow-dark: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-/* Theme */
+/* === THEME FIXES & BASE STYLES === */
+
+/* Light Mode */
 body.light-mode {
   background: var(--bg-light);
   color: var(--text-light);
-  p {
-  color: var(--text-light);
-}
 }
 
+body.light-mode p { 
+  color: var(--text-light);
+}
+
+/* Dark Mode */
 body.dark-mode {
   background: var(--bg-dark);
   color: var(--text-dark);
-  p {
-  color: var(--text-dark);
 }
+
+body.dark-mode p {
+  color: var(--text-dark);
 }
 
 .text-body {
@@ -35,13 +40,43 @@ body, .card, .navbar, .form-control {
   transition: background 0.3s, color 0.3s, box-shadow 0.3s;
 }
 
-/* Navbar */
+/* FIX QUAN TRỌNG: Đảm bảo tiêu đề và liên kết có màu sáng trong Dark Mode */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode a:not(.btn) {
+    color: var(--text-dark) !important;
+}
+
+/* === FIX MÀU LOGO TNEWS HOÀN CHỈNH === */
+
+/* 1. Icon tờ báo (luôn màu cam/vàng) */
+#logo-icon {
+    color: orange !important; 
+    filter: none !important;
+}
+
+/* 2. Chữ TNews (màu trắng sáng trong Dark Mode) */
+body.dark-mode #logo-text {
+    color: #f1f5f9 !important; /* Màu trắng sáng */
+}
+
+/* 3. Chữ TNews (màu đen trong Light Mode) */
+body.light-mode #logo-text {
+    color: var(--text-light) !important; /* Màu tối */
+}
+/* === Navbar === */
 body.light-mode .navbar {
   background-color: #ffffff;
 }
 
+/* FIX NỀN NAV: Bắt buộc nền tối */
 body.dark-mode .navbar {
-  background-color: #1f2937;
+  background-color: #1f2937 !important;
+  box-shadow: var(--shadow-dark); 
 }
 
 .navbar .nav-link {
@@ -52,15 +87,21 @@ body.light-mode .navbar .nav-link {
   color: #000;
 }
 
+/* FIX MÀU CHỮ NAV: Đảm bảo các link nav có màu sáng */
 body.dark-mode .navbar .nav-link {
-  color: #f1f5f9;
+  color: #f1f5f9 !important; 
 }
 
 body.dark-mode .navbar .nav-link:hover {
   color: var(--primary);
 }
 
-/* Cards */
+/* FIX: Màu cho icon mở/đóng nav trên di động */
+body.dark-mode .navbar-toggler-icon {
+    filter: invert(1) grayscale(100%);
+}
+
+/* === Cards === */
 .card {
   border: none;
   border-radius: 1rem;
@@ -82,8 +123,9 @@ body.light-mode .card {
 }
 
 body.dark-mode .card {
-  background-color: var(--card-dark);
+  background-color: var(--card-dark); 
   box-shadow: var(--shadow-dark);
+  color: var(--text-dark); 
 }
 
 .card-img-top {
@@ -112,17 +154,17 @@ body.dark-mode .card {
 }
 
 body.dark-mode .card-title a {
-  color: var(--text-dark);
+  color: var(--text-dark) !important; 
 }
 
-/* Search */
+/* === Search === */
 .form-control {
   transition: background 0.3s, color 0.3s, border 0.3s;
 }
 
 body.dark-mode .form-control {
   background-color: #1e293b;
-  color: #ffffff;
+  color: #ffffff; 
   border: 1px solid #334155;
 }
 
@@ -131,10 +173,10 @@ body.light-mode .form-control::placeholder {
 }
 
 body.dark-mode .form-control::placeholder {
-  color: #e2e8f0;
+  color: #e2e8f0; 
 }
 
-/* Theme Toggle */
+/* === Theme Toggle === */
 #theme-toggle {
   width: 38px;
   height: 38px;
@@ -166,7 +208,7 @@ body.dark-mode #theme-toggle:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Selection */
+/* === Selection === */
 body.light-mode ::selection,
 body.light-mode *::selection {
   background-color: #dbeafe;
@@ -177,4 +219,42 @@ body.dark-mode ::selection,
 body.dark-mode *::selection {
   background-color: #6366f1;
   color: #ffffff;
+}
+
+/* === SCROLL TO TOP BUTTON === */
+#scroll-to-top {
+  bottom: 30px;
+  right: 30px;
+  width: 45px;
+  height: 45px;
+  background-color: orange;
+  color: white;
+  border: none;
+  display: none;
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+#scroll-to-top:hover {
+  background-color: #ffb84d;
+  transform: scale(1.1);
+}
+
+#scroll-to-top.show {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

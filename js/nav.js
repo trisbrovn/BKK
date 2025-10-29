@@ -41,16 +41,21 @@ const savedTheme = localStorage.getItem("theme") || "light";
 function applyTheme(theme) {
   document.body.classList.remove("light-mode", "dark-mode");
   document.body.classList.add(`${theme}-mode`);
-  icon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+  
+  if (icon) {
+      icon.className = theme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+  }
   localStorage.setItem("theme", theme);
 }
 
 applyTheme(savedTheme);
 
-toggleBtn.addEventListener("click", () => {
-  const current = document.body.classList.contains("dark-mode")
-    ? "dark"
-    : "light";
-  const next = current === "dark" ? "light" : "dark";
-  applyTheme(next);
-});
+if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const current = document.body.classList.contains("dark-mode")
+        ? "dark"
+        : "light";
+      const next = current === "dark" ? "light" : "dark";
+      applyTheme(next);
+    });
+}
