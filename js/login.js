@@ -1,95 +1,149 @@
-const loginForm = document.getElementById("loginForm");
-const signupForm = document.getElementById("signupForm");
-const showLoginFormBtn = document.getElementById("showLoginFormBtn");
-const showSignupFormBtn = document.getElementById("showSignupFormBtn");
+import { auth, db } from "./firebase_config.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  or,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+import { User } from "./entities.js";
 
-// Chuyển form login/signup
-function changeForm(showLogin) {
-  loginForm.classList.toggle("d-none", !showLogin);
-  loginForm.classList.toggle("d-block", showLogin);
-  signupForm.classList.toggle("d-none", showLogin);
-  signupForm.classList.toggle("d-block", !showLogin);
-
-  showLoginFormBtn.classList.toggle("btn-primary", showLogin);
-  showLoginFormBtn.classList.toggle("btn-outline-primary", !showLogin);
-  showSignupFormBtn.classList.toggle("btn-primary", !showLogin);
-  showSignupFormBtn.classList.toggle("btn-outline-primary", showLogin);
+// =================================================
+// neu da dang nhap thi chuyen ve trang home
+let currentUserUID = localStorage.getItem("currentUser");
+if (currentUserUID) {
+  window.location.href = "../index.html";
 }
 
-// Gắn sự kiện đổi form
-showLoginFormBtn.addEventListener("click", () => changeForm(true));
-showSignupFormBtn.addEventListener("click", () => changeForm(false));
-
-// Hiển thị mật khẩu login
-document.getElementById("showLoginPassword").addEventListener("change", function () {
-  const pwd = document.getElementById("loginPassword");
-  pwd.type = this.checked ? "text" : "password";
+// =================================================
+// login
+const loginForm = document.getElementById("signin-form");
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  // sign in with firebase auth
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // luu vao local storage
+      localStorage.setItem("currentUser", user.uid);
+      // thong bao dang nhap thanh cong -> chuyen sang home
+      alert("Đăng nhập thành công!");
+      // xoa task luu tam de load lai
+      localStorage.removeItem("tasks");
+      location.href = "../index.html";
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert("Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu.");
+      console.error(errorMessage);
+    });
 });
 
-// Validate form signup
-function validateSignupForm(email, username, password) {
+// =================================================
+// signup
+const signupForm = document.getElementById("signup-form");
+function validateSignupForm(email, username, password, confirmPassword) {
+  // username >= 6 + no space
   if (username.length < 6) {
-    alert("Username phải có ít nhất 6 ký tự.");
+    alert("Tên người dùng phải có 6 kí tự trở lên.");
     return false;
   }
-  if (password.length < 6) {
-    alert("Mật khẩu phải có ít nhất 6 ký tự.");
+  if (username.includes(" ")) {
+    alert("Tên người dùng không được dùng dấu cách");
+    return false;
+  }
+  // pass >= 6
+  if (password < 6) {
+    alert("Mật khẩu phải cókhẩuí tự trở lên.");
+    return false;
+  }
+  // pass == confirmpass
+  if (password !== confirmPassword) {
+    alert("Mật khẩu không trùng khớp với trường nhập lại.");
     return false;
   }
   return true;
 }
 
-// Kiểm tra email đã đăng ký
-function isEmailRegistered(email) {
-  return localStorage.getItem(email) !== null;
-}
+signupForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  // ---------------------------------------
+  // validate form
+  const username = document.getElementById("signupUsername");
+  const email = document.getElementById("signupEmail");
+  const password = document.getElementById("signupPassword");
+  const confirmPassword = document.getElementById("signupConfirmPassword");
+  if (
+    validateSignupForm(
+      username.value,
+      email.value,
+      password.value,
+      confirmPassword.value
+    )
+  ) {
+    // --------------------------------------
+    // kiem tra khong duoc trung email + username cu
+    // su dung cau lenh query de lay du lieu user co email/ username trung lap
+    const q = query(
+      collection(db, "users"),
+      or(
+        where("username", "==", username.value),
+        where("email", "==", email.value)
+      )
+    );
+    let isDuplicated = false;
+    const querySnapshot = await getDocs(q);
 
-// Đăng ký: lưu dữ liệu vào localStorage
-function signupToLocalStorage() {
-  const email = document.getElementById("signupEmail").value.trim();
-  const username = document.getElementById("signupUsername").value.trim();
-  const password = document.getElementById("signupPassword").value;
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      // neu trung -> khong lam tiep
+      isDuplicated = true;
+    });
+    if (isDuplicated) {
+      alert("Email hoặc Username đã được đăng kí, vui lòng đăng nhập!");
+      return; // dung ham khong lam them
+    }
 
-  if (!validateSignupForm(email, username, password)) return;
+    // --------------------------------------
+    // create account with firebase auth
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then(async (userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        // --------------------------------------
+        // create account with firebase firestore
+        const newUser = new User(username.value, email.value, user.uid);
 
-  if (isEmailRegistered(email)) {
-    alert("Email đã được đăng ký. Vui lòng dùng email khác.");
-    return;
+        // Add a new document with a generated id.
+        const docRef = await addDoc(
+          collection(db, "users"),
+          newUser.toObject()
+        );
+        console.log("Document written with ID: ", docRef.id);
+        // luu vao local storage
+        localStorage.setItem("currentUser", user.uid);
+        // thong bao dang ki thanh cong -> chuyen sang home
+        alert("Đăng kí tài khoản thành công!");
+        // xoa task luu tam de load lai
+        localStorage.removeItem("tasks");
+        location.href = "../index.html";
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ...
+        console.error(errorMessage);
+      });
   }
-
-  localStorage.setItem(email, password);
-  alert("Đăng ký thành công! Bạn có thể đăng nhập ngay.");
-  changeForm(true);
-}
-
-// Đăng nhập: kiểm tra localStorage và chuyển trang
-function loginToHome() {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-
-  if (!isEmailRegistered(email)) {
-    alert("Email chưa được đăng ký. Vui lòng đăng ký trước.");
-    return;
-  }
-
-  const storedPassword = localStorage.getItem(email);
-  if (storedPassword !== password) {
-    alert("Mật khẩu không đúng. Vui lòng thử lại.");
-    return;
-  }
-
-  localStorage.setItem("currentUser", email);
-  alert("Đăng nhập thành công! Chuyển về trang chủ...");
-  window.location.href = "../index.html";
-}
-
-// Bắt sự kiện form
-signupForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  signupToLocalStorage();
-});
-
-loginForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-  loginToHome();
 });

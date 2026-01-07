@@ -1,11 +1,17 @@
-body {
-  background-color: #f9f8f5;
+/* Màu mặc định cho logo nếu không dùng inline style */
+.navbar-brand {
+    color: orange !important;
 }
-input.form-control {
-  background-color: #f9f8f5;
-  font-size: 1.1rem;
+
+#scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+    display: none; /* Ẩn mặc định */
+    background-color: orange;
+    color: white;
+    z-index: 1000;
 }
-#editor {
-  min-height: 300px;
-  background-color: white;
+
+#scroll-to-top.show {
+    display: block; /* Hiện khi scroll */
 }

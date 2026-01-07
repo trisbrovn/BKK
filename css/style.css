@@ -1,260 +1,275 @@
 :root {
-  --bg-light: linear-gradient(135deg, #f8fafc, #ffffff);
-  --bg-dark: linear-gradient(135deg, #0f172a, #0f1a2e);
-  --text-light: #111827;
-  --text-dark: #e2e8f0; 
-  --card-light: #ffffff;
-  --card-dark: #1e293b; 
+  /* === PALETTE MÀU === */
   --primary: #6366f1;
-  --shadow-light: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-  --shadow-dark: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  --primary-hover: #4f46e5;
+  --brand-orange: #f59e0b; /* Màu cam logo chuẩn hơn */
+  
+  /* Light Mode Variables */
+  --bg-light: #f3f4f6;
+  --text-light: #1f2937;
+  --text-muted-light: #6b7280;
+  --card-bg-light: #ffffff;
+  --border-light: #e5e7eb;
+  
+  /* Dark Mode Variables */
+  --bg-dark: #0f172a; /* Xanh đen sâu */
+  --text-dark: #f1f5f9;
+  --text-muted-dark: #94a3b8;
+  --card-bg-dark: #1e293b;
+  --border-dark: #334155;
+
+  /* Shadows (Đổ bóng hiện đại hơn) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.5); /* Glow cho Dark Mode */
 }
 
-/* === THEME FIXES & BASE STYLES === */
+/* === CẤU HÌNH CHUNG === */
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Font hiện đại */
+  line-height: 1.6; /* Tăng khả năng đọc tin tức */
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
 
-/* Light Mode */
+/* Light Mode Setup */
 body.light-mode {
-  background: var(--bg-light);
+  background-color: var(--bg-light);
   color: var(--text-light);
 }
 
-body.light-mode p { 
-  color: var(--text-light);
-}
-
-/* Dark Mode */
+/* Dark Mode Setup */
 body.dark-mode {
-  background: var(--bg-dark);
+  background-color: var(--bg-dark);
   color: var(--text-dark);
 }
 
-body.dark-mode p {
-  color: var(--text-dark);
-}
-
-.text-body {
-  color: var(--text-light);
-}
-
-body, .card, .navbar, .form-control {
-  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
-}
-
-/* FIX QUAN TRỌNG: Đảm bảo tiêu đề và liên kết có màu sáng trong Dark Mode */
-body.dark-mode h1,
-body.dark-mode h2,
-body.dark-mode h3,
-body.dark-mode h4,
-body.dark-mode h5,
-body.dark-mode h6,
-body.dark-mode a:not(.btn) {
-    color: var(--text-dark) !important;
-}
-
-/* === FIX MÀU LOGO TNEWS HOÀN CHỈNH === */
-
-/* 1. Icon tờ báo (luôn màu cam/vàng) */
-#logo-icon {
-    color: orange !important; 
-    filter: none !important;
-}
-
-/* 2. Chữ TNews (màu trắng sáng trong Dark Mode) */
-body.dark-mode #logo-text {
-    color: #f1f5f9 !important; /* Màu trắng sáng */
-}
-
-/* 3. Chữ TNews (màu đen trong Light Mode) */
-body.light-mode #logo-text {
-    color: var(--text-light) !important; /* Màu tối */
-}
-/* === Navbar === */
-body.light-mode .navbar {
-  background-color: #ffffff;
-}
-
-/* FIX NỀN NAV: Bắt buộc nền tối */
-body.dark-mode .navbar {
-  background-color: #1f2937 !important;
-  box-shadow: var(--shadow-dark); 
-}
-
-.navbar .nav-link {
+/* Fix màu chữ tiêu đề/link chung */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em; /* Chữ khít hơn chút, trông sang hơn */
   transition: color 0.3s;
 }
 
-body.light-mode .navbar .nav-link {
-  color: #000;
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
+body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+  color: var(--text-dark) !important;
 }
 
-/* FIX MÀU CHỮ NAV: Đảm bảo các link nav có màu sáng */
-body.dark-mode .navbar .nav-link {
-  color: #f1f5f9 !important; 
+/* === NAVBAR GLASSMORPHISM (Hiệu ứng kính) === */
+.navbar {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: blur(12px); /* Hiệu ứng mờ nền sau navbar */
+  -webkit-backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
-body.dark-mode .navbar .nav-link:hover {
-  color: var(--primary);
+/* Light Navbar */
+body.light-mode .navbar {
+  background-color: rgba(255, 255, 255, 0.85); /* Trong suốt nhẹ */
+  border-bottom-color: var(--border-light);
 }
 
-/* FIX: Màu cho icon mở/đóng nav trên di động */
-body.dark-mode .navbar-toggler-icon {
-    filter: invert(1) grayscale(100%);
+/* Dark Navbar */
+body.dark-mode .navbar {
+  background-color: rgba(15, 23, 42, 0.85); /* Trong suốt nhẹ */
+  border-bottom-color: var(--border-dark);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
 }
 
-/* === Cards === */
+/* Logo TNews */
+#logo-icon {
+  color: var(--brand-orange) !important;
+  filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.4)); /* Logo phát sáng nhẹ */
+}
+
+body.dark-mode #logo-text { color: #fff !important; }
+body.light-mode #logo-text { color: #111 !important; }
+
+/* Nav Links */
+.navbar-nav .nav-link {
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s;
+}
+
+body.light-mode .navbar-nav .nav-link { color: var(--text-light); }
+body.dark-mode .navbar-nav .nav-link { color: var(--text-dark); }
+
+.navbar-nav .nav-link:hover {
+  color: var(--primary) !important;
+  background-color: rgba(99, 102, 241, 0.1); /* Hover có nền nhẹ */
+}
+
+/* === NEWS CARDS (Thẻ tin tức) === */
 .card {
   border: none;
   border-radius: 1rem;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Hiệu ứng nảy nhẹ */
   height: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
+/* Card Light Mode */
 body.light-mode .card {
-  background-color: var(--card-light);
-  box-shadow: var(--shadow-light);
+  background-color: var(--card-bg-light);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
 }
 
+/* Card Dark Mode */
 body.dark-mode .card {
-  background-color: var(--card-dark); 
-  box-shadow: var(--shadow-dark);
-  color: var(--text-dark); 
+  background-color: var(--card-bg-dark);
+  border: 1px solid var(--border-dark);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+/* Hiệu ứng Hover vào Card */
+.card:hover {
+  transform: translateY(-8px); /* Bay lên cao hơn */
+}
+
+body.light-mode .card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--primary);
+}
+
+body.dark-mode .card:hover {
+  box-shadow: var(--shadow-glow); /* Viền phát sáng nhẹ màu tím */
+  border-color: var(--primary);
+}
+
+/* Image Zoom Effect (Phóng to ảnh) */
+.card-img-wrapper {
+  overflow: hidden; /* Bắt buộc để ảnh không tràn ra khi zoom */
+  height: 200px;
+  position: relative;
 }
 
 .card-img-top {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
+  transition: transform 0.5s ease;
 }
 
+.card:hover .card-img-top {
+  transform: scale(1.1); /* Phóng to ảnh 10% */
+}
+
+/* Card Body & Text */
 .card-body {
-  flex: 1;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .card-title a {
-  color: inherit;
   text-decoration: none;
-  transition: color 0.3s;
+  background: linear-gradient(to right, var(--primary), var(--primary));
+  background-size: 0% 2px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.3s, color 0.3s;
 }
 
-.card-title a:hover {
-  color: var(--primary);
+body.light-mode .card-title a { color: var(--text-light); }
+body.dark-mode .card-title a { color: var(--text-dark); }
+
+/* Gạch chân chạy ra khi hover tiêu đề */
+.card:hover .card-title a {
+  color: var(--primary) !important;
+  background-size: 100% 2px;
 }
 
-body.dark-mode .card-title a {
-  color: var(--text-dark) !important; 
+.card-text {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
 }
 
-/* === Search === */
+body.light-mode .card-text { color: var(--text-muted-light); }
+body.dark-mode .card-text { color: var(--text-muted-dark); }
+
+/* === BUTTONS & INPUTS === */
+/* Theme Toggle Button */
+#theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+body.light-mode #theme-toggle {
+  background-color: #e5e7eb;
+  color: #111;
+}
+
+body.dark-mode #theme-toggle {
+  background-color: #334155;
+  color: #fbbf24; /* Màu vàng cho mặt trăng/mặt trời */
+}
+
+#theme-toggle:hover {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* Search Input */
 .form-control {
-  transition: background 0.3s, color 0.3s, border 0.3s;
+  border-radius: 2rem; /* Bo tròn ô tìm kiếm */
+  padding-left: 1.2rem;
 }
 
 body.dark-mode .form-control {
   background-color: #1e293b;
-  color: #ffffff; 
-  border: 1px solid #334155;
+  border: 1px solid #475569;
+  color: white;
 }
 
-body.light-mode .form-control::placeholder {
-  color: #6b7280;
+body.dark-mode .form-control:focus {
+  background-color: #0f172a;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
 }
 
-body.dark-mode .form-control::placeholder {
-  color: #e2e8f0; 
-}
-
-/* === Theme Toggle === */
-#theme-toggle {
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  background-color: transparent;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-body.light-mode #theme-toggle {
-  border-color: #d1d5db;
-  color: #111827;
-}
-
-body.dark-mode #theme-toggle {
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-#theme-toggle:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-}
-
-body.dark-mode #theme-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* === Selection === */
-body.light-mode ::selection,
-body.light-mode *::selection {
-  background-color: #dbeafe;
-  color: #111827;
-}
-
-body.dark-mode ::selection,
-body.dark-mode *::selection {
-  background-color: #6366f1;
-  color: #ffffff;
-}
-
-/* === SCROLL TO TOP BUTTON === */
+/* === SCROLL TO TOP === */
 #scroll-to-top {
   bottom: 30px;
   right: 30px;
-  width: 45px;
-  height: 45px;
-  background-color: orange;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--brand-orange);
   color: white;
   border: none;
-  display: none;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  display: none; /* JS sẽ bật cái này */
   z-index: 9999;
+  transition: all 0.3s;
 }
 
 #scroll-to-top:hover {
-  background-color: #ffb84d;
-  transform: scale(1.1);
+  background-color: #d97706;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.6);
 }
 
 #scroll-to-top.show {
   display: flex !important;
   justify-content: center;
   align-items: center;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
