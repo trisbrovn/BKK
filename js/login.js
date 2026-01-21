@@ -147,3 +147,12 @@ signupForm.addEventListener("submit", async (event) => {
       });
   }
 });
+
+// onAuthStateChanged(auth, (user) => {
+//   if (user) {
+//     console.log("User is logged in");
+//     console.log("UID:", user.uid);
+//   } else {
+//     console.log("User is not logged in");
+//   }
+// })
