@@ -3,14 +3,14 @@
   --primary: #6366f1;
   --primary-hover: #4f46e5;
   --brand-orange: #f59e0b; /* Màu cam logo chuẩn hơn */
-  
+
   /* Light Mode Variables */
   --bg-light: #f3f4f6;
   --text-light: #1f2937;
   --text-muted-light: #6b7280;
   --card-bg-light: #ffffff;
   --border-light: #e5e7eb;
-  
+
   /* Dark Mode Variables */
   --bg-dark: #0f172a; /* Xanh đen sâu */
   --text-dark: #f1f5f9;
@@ -20,16 +20,24 @@
 
   /* Shadows (Đổ bóng hiện đại hơn) */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-glow: 0 0 15px rgba(99, 102, 241, 0.5); /* Glow cho Dark Mode */
 }
 
 /* === CẤU HÌNH CHUNG === */
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Font hiện đại */
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif; /* Font hiện đại */
   line-height: 1.6; /* Tăng khả năng đọc tin tức */
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
 }
 
 /* Light Mode Setup */
@@ -45,14 +53,23 @@ body.dark-mode {
 }
 
 /* Fix màu chữ tiêu đề/link chung */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   letter-spacing: -0.025em; /* Chữ khít hơn chút, trông sang hơn */
   transition: color 0.3s;
 }
 
-body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, 
-body.dark-mode h4, body.dark-mode h5, body.dark-mode h6 {
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6 {
   color: var(--text-dark) !important;
 }
 
@@ -87,8 +104,12 @@ body.dark-mode .navbar {
   filter: drop-shadow(0 0 5px rgba(245, 158, 11, 0.4)); /* Logo phát sáng nhẹ */
 }
 
-body.dark-mode #logo-text { color: #fff !important; }
-body.light-mode #logo-text { color: #111 !important; }
+body.dark-mode #logo-text {
+  color: #fff !important;
+}
+body.light-mode #logo-text {
+  color: #111 !important;
+}
 
 /* Nav Links */
 .navbar-nav .nav-link {
@@ -98,8 +119,12 @@ body.light-mode #logo-text { color: #111 !important; }
   transition: all 0.2s;
 }
 
-body.light-mode .navbar-nav .nav-link { color: var(--text-light); }
-body.dark-mode .navbar-nav .nav-link { color: var(--text-dark); }
+body.light-mode .navbar-nav .nav-link {
+  color: var(--text-light);
+}
+body.dark-mode .navbar-nav .nav-link {
+  color: var(--text-dark);
+}
 
 .navbar-nav .nav-link:hover {
   color: var(--primary) !important;
@@ -175,11 +200,17 @@ body.dark-mode .card:hover {
   background-size: 0% 2px;
   background-repeat: no-repeat;
   background-position: left bottom;
-  transition: background-size 0.3s, color 0.3s;
+  transition:
+    background-size 0.3s,
+    color 0.3s;
 }
 
-body.light-mode .card-title a { color: var(--text-light); }
-body.dark-mode .card-title a { color: var(--text-dark); }
+body.light-mode .card-title a {
+  color: var(--text-light);
+}
+body.dark-mode .card-title a {
+  color: var(--text-dark);
+}
 
 /* Gạch chân chạy ra khi hover tiêu đề */
 .card:hover .card-title a {
@@ -192,8 +223,12 @@ body.dark-mode .card-title a { color: var(--text-dark); }
   margin-bottom: 1.5rem;
 }
 
-body.light-mode .card-text { color: var(--text-muted-light); }
-body.dark-mode .card-text { color: var(--text-muted-dark); }
+body.light-mode .card-text {
+  color: var(--text-muted-light);
+}
+body.dark-mode .card-text {
+  color: var(--text-muted-dark);
+}
 
 /* === BUTTONS & INPUTS === */
 /* Theme Toggle Button */
@@ -269,7 +304,23 @@ body.dark-mode .form-control:focus {
   animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.hover-shadow {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

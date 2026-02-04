@@ -16,7 +16,7 @@ import { User } from "./entities.js";
 
 // =================================================
 // neu da dang nhap thi chuyen ve trang home
-let currentUserUID = localStorage.getItem("currentUser");
+let currentUserUID = localStorage.getItem("currentUserID");
 if (currentUserUID) {
   window.location.href = "../index.html";
 }
@@ -34,7 +34,7 @@ loginForm.addEventListener("submit", async (event) => {
       // Signed in
       const user = userCredential.user;
       // luu vao local storage
-      localStorage.setItem("currentUser", user.uid);
+      localStorage.setItem("currentUserID", user.uid);
       // thong bao dang nhap thanh cong -> chuyen sang home
       alert("Đăng nhập thành công!");
       // xoa task luu tam de load lai
@@ -77,74 +77,61 @@ function validateSignupForm(email, username, password, confirmPassword) {
 
 signupForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  // ---------------------------------------
-  // validate form
-  const username = document.getElementById("signupUsername");
-  const email = document.getElementById("signupEmail");
-  const password = document.getElementById("signupPassword");
-  const confirmPassword = document.getElementById("signupConfirmPassword");
-  if (
-    validateSignupForm(
-      username.value,
-      email.value,
-      password.value,
-      confirmPassword.value
-    )
-  ) {
-    // --------------------------------------
-    // kiem tra khong duoc trung email + username cu
-    // su dung cau lenh query de lay du lieu user co email/ username trung lap
+
+  const username = document.getElementById("signupUsername").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+  const confirmPassword = document.getElementById(
+    "signupConfirmPassword",
+  ).value;
+
+  // =====================
+  // Validate
+  if (!validateSignupForm(username, email, password, confirmPassword)) {
+    return;
+  }
+
+  try {
+    // =====================
+    // Check duplicate username OR email
     const q = query(
       collection(db, "users"),
-      or(
-        where("username", "==", username.value),
-        where("email", "==", email.value)
-      )
+      or(where("username", "==", username), where("email", "==", email)),
     );
-    let isDuplicated = false;
-    const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log(doc.id, " => ", doc.data());
-      // neu trung -> khong lam tiep
-      isDuplicated = true;
-    });
-    if (isDuplicated) {
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
       alert("Email hoặc Username đã được đăng kí, vui lòng đăng nhập!");
-      return; // dung ham khong lam them
+      return;
     }
 
-    // --------------------------------------
-    // create account with firebase auth
-    createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then(async (userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        // --------------------------------------
-        // create account with firebase firestore
-        const newUser = new User(username.value, email.value, user.uid);
+    // =====================
+    // Create Firebase Auth account
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
 
-        // Add a new document with a generated id.
-        const docRef = await addDoc(
-          collection(db, "users"),
-          newUser.toObject()
-        );
-        console.log("Document written with ID: ", docRef.id);
-        // luu vao local storage
-        localStorage.setItem("currentUser", user.uid);
-        // thong bao dang ki thanh cong -> chuyen sang home
-        alert("Đăng kí tài khoản thành công!");
-        // xoa task luu tam de load lai
-        localStorage.removeItem("tasks");
-        location.href = "../index.html";
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-        console.error(errorMessage);
-      });
+    const authUser = userCredential.user;
+
+    // =====================
+    // Save user to Firestore (AUTO ID)
+    const newUser = new User(username, email, authUser.uid);
+
+    await addDoc(collection(db, "users"), newUser.toObject());
+
+    // =====================
+    // Local storage
+    localStorage.setItem("currentUserID", authUser.uid);
+
+    alert("Đăng kí tài khoản thành công!");
+    localStorage.removeItem("tasks");
+
+    window.location.href = "../index.html";
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
   }
 });
 

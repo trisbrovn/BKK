@@ -1,58 +1,56 @@
-import { auth, db } from "./firebase_config.js";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-import { User, Task } from "./entities.js";
+import { User } from "./entities.js";
+import { auth } from "./firebase_config.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-let currentUserUID = localStorage.getItem("currentUser");
-// =================================================
-// hien thi thong tin user dang nhap
-document.addEventListener("DOMContentLoaded", async () => {
+const uid = localStorage.getItem("currentUserID");
+
+// DOM
+const usernameEl = document.getElementById("account-username");
+const uidEl = document.getElementById("account-uid");
+const emailEl = document.getElementById("account-email");
+const logoutBtn = document.getElementById("logout-btn");
+
+// =====================
+// Guard: must login
+if (!uid) {
+  window.location.href = "./login.html";
+}
+
+// =====================
+// Load user info
+async function loadAccountInfo() {
   try {
-    const q = query(
-      collection(db, "users"),
-      where("uid", "==", currentUserUID)
-    );
+    const user = await User.getByUID(uid);
 
-    const querySnapshot = await getDocs(q);
-    // chuyen task JSON -> class Task
-    if (querySnapshot.empty) {
-      alert("No such user document!");
-      // chuyen trang dang nhap
-      window.location.href = "./login.html";
+    if (!user) {
+      alert("Không tìm thấy thông tin người dùng");
       return;
     }
-    
-    const dataShot = querySnapshot.docs[0];
-    const data = dataShot.data();
-    const user = new User(
-      data.username,
-      data.email,
-      currentUserUID,
-      data.photoURL
-    );
-    // hien thi len UI
-    document.getElementById("account-username").innerText = user.$username;
-    document.getElementById("account-email").innerText = user.$email;
-    document.getElementById("account-img").src = user.$photoURL;
-    document.getElementById("account-uid").innerText = user.$uid;
-    // luu lai de khong goi nhiu lan
-    localStorage.setItem("currentUserInfo", JSON.stringify(user));
-  } catch (error) {
-    alert("Error fetching user document:", error);
-    console.error(error);
-  }
-});
 
-// =================================================
-// logout
-const logoutBtn = document.getElementById("logout-btn");
+    usernameEl.innerText = user.$username;
+    uidEl.innerText = user.$uid;
+    emailEl.innerText = user.$email;
+  } catch (error) {
+    console.error(error);
+    alert("Lỗi khi tải thông tin tài khoản");
+  }
+}
+
+loadAccountInfo();
+
+// =====================
+// Logout
 logoutBtn.addEventListener("click", () => {
-  // xoa local storage
-  localStorage.removeItem("currentUser");
-  // chuyen ve trang login
-  window.location.href = "./login.html";
+  // logout firebase auth
+  signOut(auth)
+    .then(() => {
+      // Sign-out successful.
+      localStorage.removeItem("currentUserID");
+      window.location.href = "../index.html";
+    })
+    .catch((error) => {
+      // An error happened.
+      alert("Lỗi khi đăng xuất");
+      console.error("Error signing out: ", error);
+    });
 });

@@ -1,99 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TNews</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8">
-  <title>TNews</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="icon"
+      href="https://cdn-icons-png.flaticon.com/512/10290/10290596.png"
+      type="image/png"
+    />
 
-  <link rel="icon"
-    href="https://cdn-icons-png.flaticon.com/512/10290/10290596.png"
-    type="image/png">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="./css/style.css">
+  <body>
+    <nav class="navbar navbar-expand-lg sticky-top shadow">
+      <div class="container-fluid">
+        <a class="navbar-brand fw-bold" href="#">
+          <i id="logo-icon" class="fa-solid fa-newspaper me-1"></i>
+          <span id="logo-text">TNews</span>
+        </a>
 
-</head>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-<body>
-  <nav class="navbar navbar-expand-lg sticky-top shadow">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="#">
-        <i id="logo-icon" class="fa-solid fa-newspaper me-1"></i> 
-        <span id="logo-text">TNews</span>
-      </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Trang chủ</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Tin tức đăng</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="create-post-btn" href="./pages/post.html"
+                >Tạo tin tức</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="login-btn" href="./pages/login.html"
+                >Đăng nhập</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-none" id="logout-btn" href="#">Đăng xuất</a>
+            </li>
+          </ul>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+          <div class="d-flex align-items-center gap-2">
+            <form class="d-flex" role="search">
+              <input
+                class="form-control"
+                type="search"
+                placeholder="Tìm kiếm..."
+                aria-label="Search"
+              />
+            </form>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#">Trang chủ</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Tin tức đăng</a></li>
-          <li class="nav-item"><a class="nav-link" href="./pages/post.html">Tạo tin tức</a></li>
-          <li class="nav-item"><a class="nav-link" id="login-btn" href="./pages/login.html">Đăng nhập</a></li>
-          <li class="nav-item"><a class="nav-link d-none" id="logout-btn" href="#">Đăng xuất</a></li>
-        </ul>
+            <!-- ACCOUNT BUTTON -->
+            <a
+              href="./pages/account.html"
+              id="account-btn"
+              class="btn btn-outline-primary rounded-circle d-none"
+              title="Tài khoản"
+              style="
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <i class="fa-solid fa-user"></i>
+            </a>
 
-        <div class="d-flex align-items-center gap-2">
-          <form class="d-flex" role="search">
-            <input class="form-control" type="search" placeholder="Tìm kiếm..." aria-label="Search">
-          </form>
-          <button id="theme-toggle" class="btn btn-outline-secondary">
-            <i id="theme-icon" class="fa-solid fa-moon"></i>
-          </button>
+            <!-- THEME -->
+            <button id="theme-toggle" class="btn btn-outline-secondary">
+              <i id="theme-icon" class="fa-solid fa-moon"></i>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <main class="container py-4">
-    <div id="newsContainer" class="row g-4">
+    <main class="container py-4">
+      <div id="newsContainer" class="row g-4">
+        <!-- Tin tức sẽ được tải động ở đây -->
+        <!-- <div class="col-12 col-md-6 col-lg-4" data-postId="abc123">
+          <div class="card h-100 shadow-sm border-0 hover-shadow">
+            <img
+              src="https://career-advice.jobs.ac.uk/wp-content/uploads/An-image-of-Vietnam.jpg.optimal.jpg"
+              class="card-img-top"
+              alt="Tiêu đề tin tức"
+              style="object-fit: cover; height: 200px"
+              id="thumnail"
+            />
+            <div class="card-body d-flex flex-column">
+              <div class="d-flex justify-content-between mb-2">
+                <span class="badge bg-primary" id="created-by">Công nghệ</span>
+                <small class="text-muted"
+                  ><i class="far fa-calendar-alt me-1" id="created-at"></i>04/02/2026</small
+                >
+              </div>
+              <h5 class="card-title fw-bold" id="post-title">
+                Tiêu đề bài viết tin tức nổi bật
+              </h5>
+              <p class="card-text text-secondary text-truncate-3" id="short-desc">
+                Đây là phần mô tả ngắn gọn nội dung của bài viết nhằm thu hút
+                người đọc bấm vào xem chi tiết...
+              </p>
+              <div
+                class="mt-auto d-flex justify-content-between align-items-center"
+              >
+                <a href="#" class="btn btn-outline-primary btn-sm fw-bold"
+                  >Đọc tiếp</a
+                >
+                <div class="text-muted small" id="views">
+                  <i class="far fa-eye me-1"></i>1.2k
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
       </div>
-  </main>
+    </main>
 
-  <footer class="container-fluid text-center py-3 mt-4 border-top">
-    <div class="d-flex flex-row justify-content-center gap-3 w-100 fs-4 mb-2">
-      <a href="https://www.facebook.com/" class="text-dark" target="_blank"><i class="fa-brands fa-facebook"></i></a>
-      <a href="https://x.com/" class="text-dark" target="_blank"><i class="fa-brands fa-twitter"></i></a>
-      <a href="mailto:trisbrodz@gmail.com" class="text-dark" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-      <a href="https://www.tiktok.com/en/" class="text-dark" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
-      <a href="https://www.instagram.com/" class="text-dark" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-      <a href="https://www.youtube.com/" class="text-dark" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-    </div>
-    <p class="text-secondary text-center fw-bold mb-0">
-      © Copyright from open source
-    </p>
-  </footer>
+    <footer class="container-fluid text-center py-3 mt-4 border-top">
+      <div class="d-flex flex-row justify-content-center gap-3 w-100 fs-4 mb-2">
+        <a href="https://www.facebook.com/" class="text-dark" target="_blank"
+          ><i class="fa-brands fa-facebook"></i
+        ></a>
+        <a href="https://x.com/" class="text-dark" target="_blank"
+          ><i class="fa-brands fa-twitter"></i
+        ></a>
+        <a href="mailto:trisbrodz@gmail.com" class="text-dark" target="_blank"
+          ><i class="fa-solid fa-envelope"></i
+        ></a>
+        <a href="https://www.tiktok.com/en/" class="text-dark" target="_blank"
+          ><i class="fa-brands fa-tiktok"></i
+        ></a>
+        <a href="https://www.instagram.com/" class="text-dark" target="_blank"
+          ><i class="fa-brands fa-instagram"></i
+        ></a>
+        <a href="https://www.youtube.com/" class="text-dark" target="_blank"
+          ><i class="fa-brands fa-youtube"></i
+        ></a>
+      </div>
+      <p class="text-secondary text-center fw-bold mb-0">
+        © Copyright from open source
+      </p>
+    </footer>
 
-  <button id="scroll-to-top" type="button" class="btn rounded-circle shadow position-fixed">
-    <i class="fas fa-arrow-up"></i>
-  </button>
+    <button
+      id="scroll-to-top"
+      type="button"
+      class="btn rounded-circle shadow position-fixed"
+    >
+      <i class="fas fa-arrow-up"></i>
+    </button>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script src="./js/nav.js"></script> 
-  
-  <script src="./js/load_api_news.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
 
-  <script>
-    const scrollTopBtn = document.getElementById("scroll-to-top");
+    <script type="module" src="./js/nav.js"></script>
+    <script type="module" src="./js/post_controller.js"></script>
+    <script>
+      const scrollTopBtn = document.getElementById("scroll-to-top");
 
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 300) {
-        scrollTopBtn.classList.add("show");
-      } else {
-        scrollTopBtn.classList.remove("show");
-      }
-    });
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.add("show");
+        } else {
+          scrollTopBtn.classList.remove("show");
+        }
+      });
 
-    scrollTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  </script>
-</body>
-
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
+  </body>
 </html>
