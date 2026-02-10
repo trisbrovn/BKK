@@ -324,3 +324,75 @@ body.dark-mode .form-control:focus {
     transform: translateY(0);
   }
 }
+/* =========================================
+   CHỈ FIX MÀU CHO FORM (KHÔNG ĐỔI KÍCH THƯỚC)
+   ========================================= */
+
+/* Dark Mode: Đổi màu chữ và nền cho Input */
+body.dark-mode input, 
+body.dark-mode .form-control {
+    background-color: var(--card-bg-dark) !important; /* Dùng màu #1e293b bạn đã có */
+    color: var(--text-dark) !important;               /* Màu chữ trắng sáng */
+    border-color: var(--border-dark) !important;      /* Viền tối hơn */
+}
+
+/* Dark Mode: Đổi màu chữ gợi ý (Placeholder) */
+body.dark-mode ::placeholder {
+    color: var(--text-muted-dark) !important;
+    opacity: 0.6;
+}
+
+/* Dark Mode: Đổi màu Label (Tiêu đề ô nhập) */
+body.dark-mode label,
+body.dark-mode .form-label {
+    color: var(--text-dark) !important;
+}
+
+/* Chặn Chrome đổi màu nền khi tự điền mật khẩu (Autofill) */
+body.dark-mode input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--card-bg-dark) inset !important;
+    -webkit-text-fill-color: var(--text-dark) !important;
+}
+
+/* --- FIX LỖI TRANG INDEX --- */
+
+/* 1. Fix màu chữ mô tả và ngày tháng trên Card cho Dark Mode */
+body.dark-mode .card-text, 
+body.dark-mode .text-muted,
+body.dark-mode .card-body span {
+    color: var(--text-muted-dark) !important;
+    opacity: 0.9;
+}
+
+/* 2. Đảm bảo ảnh card luôn đẹp kể cả khi lỗi */
+.card-img-top {
+    background-color: #2d3748; /* Màu nền dự phòng nếu ảnh lỗi */
+    min-height: 180px;
+    object-fit: cover;
+}
+
+/* 3. Fix khoảng cách và màu sắc Footer */
+footer {
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--border-dark);
+}
+
+footer .d-flex.justify-content-center.gap-3 {
+    gap: 1.5rem !important; /* Tăng khoảng cách giữa các icon social */
+}
+
+footer i, footer a {
+    color: var(--text-muted-dark) !important;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+footer a:hover i {
+    color: var(--brand-orange) !important; /* Di chuột vào hiện màu cam thương hiệu */
+}
+
+/* 4. Fix ô tìm kiếm (Search) bị chìm */
+body.dark-mode .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
