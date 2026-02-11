@@ -1,110 +1,100 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Tài khoản - TNews</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      rel="icon"
-      href="https://cdn-icons-png.flaticon.com/512/10290/10290596.png"
-      type="image/png"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <title>Tài khoản - TNews</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-  </head>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/10290/10290596.png" type="image/png" />
 
-  <body>
-    <nav class="navbar navbar-expand-lg sticky-top shadow">
-      <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="../index.html">
-          <i id="logo-icon" class="fa-solid fa-newspaper me-1"></i>
-          <span id="logo-text">TNews</span>
-        </a>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top shadow">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="../index.html">
+        <i id="logo-icon" class="fa-solid fa-newspaper me-1"></i>
+        <span id="logo-text">TNews</span>
+      </a>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="../index.html">Trang chủ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Tin tức đăng</a>
-            </li>
-          </ul>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-          <div class="d-flex align-items-center gap-2">
-            <button id="theme-toggle" class="btn btn-outline-secondary">
-              <i id="theme-icon" class="fa-solid fa-moon"></i>
-            </button>
-          </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Trang chủ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Tin tức đăng</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" id="create-post-btn" href="./post.html">Tạo tin tức</a>
+        </ul>
+
+        <div class="d-flex align-items-center gap-2">
+          <button id="theme-toggle" class="btn btn-outline-secondary">
+            <i id="theme-icon" class="fa-solid fa-moon"></i>
+          </button>
         </div>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <main class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-12 col-md-8 col-lg-6">
-          <div class="card shadow-lg border-0">
-            <div class="card-header bg-primary text-white py-3">
-              <h4 class="mb-0 text-center"><i class="fa-solid fa-user-circle me-2"></i>Thông tin tài khoản</h4>
+  <main class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0">
+          <div class="card-header bg-primary text-white py-3">
+            <h4 class="mb-0 text-center"><i class="fa-solid fa-user-circle me-2"></i>Thông tin tài khoản</h4>
+          </div>
+          <div class="card-body p-4">
+            <div class="list-group list-group-flush">
+              <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
+                <span class="fw-bold"><i class="fa-solid fa-signature me-2"></i>Username:</span>
+                <span id="account-username" class="text-secondary">Đang tải...</span>
+              </div>
+              <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
+                <span class="fw-bold"><i class="fa-solid fa-id-badge me-2"></i>UID:</span>
+                <span id="account-uid" class="text-muted small">Đang tải...</span>
+              </div>
+              <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
+                <span class="fw-bold"><i class="fa-solid fa-envelope me-2"></i>Email:</span>
+                <span id="account-email" class="text-secondary">Đang tải...</span>
+              </div>
             </div>
-            <div class="card-body p-4">
-              <div class="list-group list-group-flush">
-                <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
-                  <span class="fw-bold"><i class="fa-solid fa-signature me-2"></i>Username:</span>
-                  <span id="account-username" class="text-secondary">Đang tải...</span>
-                </div>
-                <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
-                  <span class="fw-bold"><i class="fa-solid fa-id-badge me-2"></i>UID:</span>
-                  <span id="account-uid" class="text-muted small">Đang tải...</span>
-                </div>
-                <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center py-3">
-                  <span class="fw-bold"><i class="fa-solid fa-envelope me-2"></i>Email:</span>
-                  <span id="account-email" class="text-secondary">Đang tải...</span>
-                </div>
-              </div>
 
-              <div class="d-grid mt-4">
-                <button class="btn btn-danger fw-bold py-2" id="logout-btn">
-                  <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
-                </button>
-              </div>
+            <div class="d-grid mt-4">
+              <button class="btn btn-danger fw-bold py-2" id="logout-btn">
+                <i class="fa-solid fa-right-from-bracket me-2"></i>Đăng xuất
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <footer class="container-fluid text-center py-3 mt-auto border-top">
-      <div class="d-flex flex-row justify-content-center gap-3 w-100 fs-4 mb-2">
-        <a href="#" class="text-dark"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#" class="text-dark"><i class="fa-brands fa-twitter"></i></a>
-        <a href="#" class="text-dark"><i class="fa-solid fa-envelope"></i></a>
-      </div>
-      <p class="text-secondary text-center fw-bold mb-0">
-        © Copyright from open source
-      </p>
-    </footer>
+  <footer class="container-fluid text-center py-3 mt-auto border-top">
+    <div class="d-flex flex-row justify-content-center gap-3 w-100 fs-4 mb-2">
+      <a href="#" class="text-dark"><i class="fa-brands fa-facebook"></i></a>
+      <a href="#" class="text-dark"><i class="fa-brands fa-twitter"></i></a>
+      <a href="#" class="text-dark"><i class="fa-solid fa-envelope"></i></a>
+    </div>
+    <p class="text-secondary text-center fw-bold mb-0">
+      © Copyright from open source
+    </p>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="../js/nav.js"></script>
-    <script type="module" src="../js/account.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../js/nav.js"></script>
+  <script type="module" src="../js/account.js"></script>
+</body>
+
 </html>
