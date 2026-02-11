@@ -169,7 +169,7 @@ class Post {
             </p>
 
             <div class="mt-auto d-flex justify-content-between align-items-center">
-              <a href="detail.html?postID=${this.id}"
+              <a href="../pages/detail.html?postID=${this.id}"
                  class="btn btn-outline-primary btn-sm fw-bold">
                 Đọc tiếp
               </a>

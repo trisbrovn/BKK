@@ -26,7 +26,7 @@ export async function updatePost(postID) {
   post.shortDesc = document.getElementById("short-desc").value;
 
   await post.save();
-  window.location.href = `detail.html?postID=${postID}`;
+  window.location.href = `../pages/detail.html?postID=${postID}`;
 }
 
 // ================= DELETE
