@@ -396,3 +396,38 @@ footer a:hover i {
 body.dark-mode .form-control::placeholder {
     color: rgba(255, 255, 255, 0.5) !important;
 }
+
+/* Placeholder cho Editor */
+#editor:empty:before {
+    content: attr(data-placeholder);
+    color: var(--text-muted-dark);
+    font-style: italic;
+    opacity: 0.5;
+}
+
+/* Hiệu ứng khi focus vào ô tiêu đề */
+#post-title:focus {
+    color: var(--primary) !important;
+}
+
+/* Tùy chỉnh toolbar buttons trong Dark Mode */
+body.dark-mode .btn-light {
+    background-color: #334155;
+    color: var(--text-dark);
+    border: none;
+}
+
+body.dark-mode .btn-light:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* Ngăn Scrollbar xấu trên Editor */
+#editor::-webkit-scrollbar {
+    width: 6px;
+}
+#editor::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+

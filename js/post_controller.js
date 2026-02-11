@@ -2,13 +2,40 @@ import { Post } from "./entities.js";
 
 let uid = localStorage.getItem("currentUserID");
 
+// Hàm kiểm tra tính hợp lệ của dữ liệu
+function validatePostData(data) {
+  if (!data.title) {
+    alert("Vui lòng nhập tiêu đề bài viết!");
+    return false;
+  }
+  if (!data.shortDesc) {
+    alert("Vui lòng nhập mô tả ngắn!");
+    return false;
+  }
+  // Kiểm tra editor có nội dung thực sự hay không (không chỉ là các thẻ trống)
+  const textContent = data.content.replace(/<[^>]*>/g, "").trim();
+  if (!textContent && !data.content.includes("<img")) {
+    alert("Vui lòng nhập nội dung bài viết!");
+    return false;
+  }
+  return true;
+}
+
 // ================= CREATE
 export async function createPost() {
+  const title = document.getElementById("post-title").value.trim();
+  const thumbnail = document.getElementById("post-thumbnail").value.trim();
+  const content = document.getElementById("editor").innerHTML.trim();
+  const shortDesc = document.getElementById("post-short-desc")?.value.trim();
+
+  // Chặn nếu dữ liệu trống
+  if (!validatePostData({ title, shortDesc, content })) return;
+
   const post = new Post({
-    title: document.getElementById("post-title").value.trim(),
-    thumbnail: document.getElementById("post-thumbnail").value.trim(),
-    content: document.getElementById("editor").innerHTML,
-    shortDesc: document.getElementById("short-desc")?.value,
+    title,
+    thumbnail: thumbnail || "https://via.placeholder.com/400x200?text=No+Image", // Ảnh mặc định nếu trống
+    content,
+    shortDesc,
     author: uid,
   });
 
@@ -18,101 +45,96 @@ export async function createPost() {
 
 // ================= EDIT
 export async function updatePost(postID) {
-  const post = await Post.getById(postID);
+  const title = document.getElementById("post-title").value.trim();
+  const thumbnail = document.getElementById("post-thumbnail").value.trim();
+  const content = document.getElementById("editor").innerHTML.trim();
+  const shortDesc = document.getElementById("post-short-desc").value.trim();
 
-  post.title = document.getElementById("post-title").value;
-  post.thumbnail = document.getElementById("post-thumbnail").value;
-  post.content = document.getElementById("editor").innerHTML;
-  post.shortDesc = document.getElementById("short-desc").value;
+  // Chặn nếu dữ liệu trống
+  if (!validatePostData({ title, shortDesc, content })) return;
+
+  const post = await Post.getById(postID);
+  post.title = title;
+  post.thumbnail = thumbnail;
+  post.content = content;
+  post.shortDesc = shortDesc;
 
   await post.save();
   window.location.href = `../pages/detail.html?postID=${postID}`;
 }
 
-// ================= DELETE
+// ================= DELETE (Giữ nguyên)
 export async function deletePost(postID) {
   const post = await Post.getById(postID);
   await post.delete();
   window.location.href = "../index.html";
 }
 
-// ================= VIEW
+// ================= VIEW (Giữ nguyên)
 export async function viewPost(postID) {
   const post = await Post.getById(postID);
-
   document.getElementById("post-title").innerText = post.title;
-  document.getElementById("post-thumbnail").src = post.thumbnail;
+  if(document.getElementById("post-thumbnail")) {
+      document.getElementById("post-thumbnail").src = post.thumbnail;
+  }
   document.getElementById("post-content").innerHTML = post.content;
-
   await post.increaseView();
 }
 
-// ================= LIST
+// ================= LIST (Giữ nguyên)
 export async function listPosts(container) {
   const posts = await Post.getAll();
   container.innerHTML = "";
   posts.forEach((post) => {
-    console.log(post);
     container.innerHTML += post.toHTMLCode();
   });
 }
 
-// ------------------------ thêm hàm vào trang
+// ------------------------ Khởi tạo sự kiện
 document.addEventListener("DOMContentLoaded", async () => {
   const postID = new URLSearchParams(window.location.search).get("postID");
   const currentURL = window.location.href;
 
-  // trang post.html
   if (currentURL.includes("post.html")) {
     const deleteBtn = document.getElementById("delete-post-btn");
+    const postBtn = document.getElementById("post");
 
-    // chỉnh sửa bài viết
+    // Nếu là chế độ chỉnh sửa
     if (postID) {
-      // hiện nút xoá bài viết
-      deleteBtn.classList.remove("d-none");
-      // load dữ liệu bài viết lên form
-      (async () => {
-        const post = await Post.getById(postID);
-        document.getElementById("post-title").value = post.title;
-        document.getElementById("post-thumbnail").value = post.thumbnail;
-        document.getElementById("editor").innerHTML = post.content;
-        document.getElementById("short-desc").value = post.shortDesc;
-      })();
-
-      // sự kiện xoá bài viết
-      deleteBtn.addEventListener("click", async () => {
-        const confirmDelete = confirm(
-          "Bạn có chắc muốn xoá bài viết này không?",
-        );
-        if (confirmDelete) {
-          await deletePost(postID);
-        }
-      });
-      return;
+      deleteBtn?.classList.remove("d-none");
+      const post = await Post.getById(postID);
+      document.getElementById("post-title").value = post.title;
+      document.getElementById("post-thumbnail").value = post.thumbnail;
+      document.getElementById("editor").innerHTML = post.content;
+      document.getElementById("post-short-desc").value = post.shortDesc; // Sửa ID ở đây khớp với HTML
+      
+      postBtn.innerText = "Cập nhật bài viết";
     }
 
-    // sự kiện đăng/ cập nhật bài viết
-    document.getElementById("post")?.addEventListener("click", async () => {
+    // Sự kiện Click nút Đăng/Cập nhật
+    postBtn?.addEventListener("click", async () => {
       if (postID) {
-        // cập nhật
         await updatePost(postID);
       } else {
-        // tạo mới
         await createPost();
+      }
+    });
+
+    // Sự kiện Xoá
+    deleteBtn?.addEventListener("click", async () => {
+      if (confirm("Bạn có chắc muốn xoá bài viết này không?")) {
+        await deletePost(postID);
       }
     });
   }
 
-  // trang detail.html
+  // Các trang khác
   if (currentURL.includes("detail.html") && postID) {
-   await viewPost(postID);
-    return;
+    await viewPost(postID);
   }
 
   const listContainer = document.getElementById("newsContainer");
-  // trang index.html
-  if (currentURL.includes("index.html") && listContainer) {
+  if ((currentURL.includes("index.html") || currentURL.endsWith("/")) && listContainer) {
     await listPosts(listContainer);
-    return;
   }
 });
